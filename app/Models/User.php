@@ -42,4 +42,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function whiteboards()
+    {
+        return $this->hasMany(Whiteboard::class);
+    }
+
+    public function sharedWhiteboards()
+    {
+        return $this->belongsToMany(Whiteboard::class, 'whiteboard_user')
+        ->withTimestamps();
+    }
 }
