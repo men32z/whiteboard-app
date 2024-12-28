@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::prefix('whiteboards')->group(function () {
+    Route::get('/', function () {
+        return Inertia::render('Whiteboards/Index');
+    })->name('whiteboards.index');
+
+    Route::get('/create', function () {
+        return Inertia::render('Whiteboards/Create');
+    })->name('whiteboards.create');
+
+    Route::get('/{whiteboard}', function () {
+        return Inertia::render('Whiteboards/Show');
+    })->name('whiteboards.show');
+
+    Route::get('/{whiteboard}/edit', function (Request $request) {
+        return Inertia::render('Whiteboards/Edit',['whiteboard' => $request->whiteboard]);
+    })->name('whiteboards.edit');
 });
 
 require __DIR__.'/auth.php';
